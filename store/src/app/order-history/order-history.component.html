@@ -1,0 +1,35 @@
+<mat-card>
+    <mat-card-header>
+      <mat-card-title>Order History</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <table mat-table [dataSource]="userOrders">
+        <ng-container matColumnDef="order_id">
+          <th mat-header-cell *matHeaderCellDef>Order ID</th>
+          <td mat-cell *matCellDef="let order">{{ order.order_id }}</td>
+        </ng-container>
+        <ng-container matColumnDef="time_stamp">
+          <th mat-header-cell *matHeaderCellDef>Order Date</th>
+          <td mat-cell *matCellDef="let order">{{ order.time_stamp}}</td>
+        </ng-container>
+        <ng-container matColumnDef="user_items">
+          <th mat-header-cell *matHeaderCellDef>Order Items</th>
+          <td mat-cell *matCellDef="let order">
+            <div *ngFor="let item of order.user_items">
+              <span>Product Name: {{ getProduct(item.product_id).title }}</span><br>
+              <span>Quantity: {{ item.quantity }}</span>
+            </div>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="['order_id', 'time_stamp', 'user_items']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['order_id', 'time_stamp', 'user_items'];"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+  
+  
+  <!-- order_id:number;
+  current_order:boolean;
+  user_id:number;
+  user_items:user_items[];
+  time_stamp:string; -->

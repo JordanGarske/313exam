@@ -1,0 +1,33 @@
+<mat-card>
+  <mat-table [dataSource]="items">
+    <ng-container matColumnDef="title">
+      <mat-header-cell *matHeaderCellDef>Title</mat-header-cell>
+      <mat-cell *matCellDef="let item">{{ item.title }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="description">
+      <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+      <mat-cell *matCellDef="let item">{{ item.description }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="price">
+      <mat-header-cell *matHeaderCellDef>Price</mat-header-cell>
+      <mat-cell *matCellDef="let item">{{ item.price | currency }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="quantity">
+      <mat-header-cell *matHeaderCellDef>Quantity</mat-header-cell>
+      <mat-cell *matCellDef="let item; let i = index">
+        <button mat-icon-button (click)="decrementQuantity(i)">
+          <mat-icon>remove_circle_outline</mat-icon>
+        </button>
+        {{ quantities[i] }}
+      </mat-cell>
+    </ng-container>
+    
+    <mat-header-row *matHeaderRowDef="['title', 'description', 'price', 'quantity']"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: ['title', 'description', 'price', 'quantity']"></mat-row>
+  </mat-table>
+  <mat-card-actions>
+    <button mat-raised-button color="primary" (click)="orderItems();">Checkout</button>
+    <!-- <button mat-flat-button color="warn">Clear Cart</button> -->
+  </mat-card-actions>
+</mat-card>
+{{total}}
