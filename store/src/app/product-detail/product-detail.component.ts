@@ -21,7 +21,7 @@ addToCart(product:Product) {
   const url = `${FIREBASE_DB_URL}/${product.id -1}.json`;
   const urlCurrentOrder = `${FIREBASE_DB_URL}/order.json`;
   this.http.get<Order[]>(urlCurrentOrder).subscribe(orders => {
-    let x = orders.filter(order => order.user_id === 1 && order.current_order === true)[0];
+    let x = orders.filter(order => order.user_id === this.user.getUser().user_id && order.current_order === true)[0];
     
     const urlUpdate = `${FIREBASE_DB_URL}/order/${x.order_id -1 }.json`;
     if(x.user_items){

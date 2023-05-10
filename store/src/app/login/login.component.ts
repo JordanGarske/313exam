@@ -13,15 +13,12 @@ import { UserService } from '../user.service';
 export class LoginComponent implements OnInit {
   first_name = ""
   password=""
-  private biggestID:number =  0; 
   here:string = "nope"
   constructor(
     private router: Router,private user: UserService
   ) {}
 
   ngOnInit() {
-    console.log("cool")
-    this.user.getUsers().subscribe(items => this.biggestID = items[0].user_id)
   }
 
   onSubmit() {

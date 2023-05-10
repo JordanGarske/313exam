@@ -26,14 +26,21 @@ export class CartComponent implements OnInit {
       let order = userOrder[0];
       this.order = order;
       this.quantities = [];
-      order.user_items.forEach(item => this.quantities.push(item.quantity));
-      this.http.get<Product[]>(this.link + '/product.json').subscribe(products => {
-        this.items = products.filter(prod => this.includesID(order, prod.id));
-          this.getTotal();
-      })
+      if(this.order.user_items){
+        order.user_items.forEach(item => this.quantities.push(item.quantity));
+        this.http.get<Product[]>(this.link + '/product.json').subscribe(products => {
+          this.items = products.filter(prod => this.includesID(order, prod.id));
+            this.getTotal();
+        })
+      }
+     
     })  
   }
   includesID(order: Order, prodID: number): boolean {
+    if(!order.user_items){
+      return false;
+      
+    }
     for (let index = 0; index < order.user_items.length; index++) {
       if (order.user_items[index].product_id === prodID) {
         return true;
@@ -51,7 +58,6 @@ export class CartComponent implements OnInit {
     return total;
   }
   decrementQuantity(index: number) {
-
       const urlUpdate = `${FIREBASE_DB_URL}/order/${this.order.order_id -1 }.json`;
       this.order.user_items[index].quantity -=1; 
       if(this.order.user_items[index].quantity === 0 ){
@@ -68,12 +74,10 @@ export class CartComponent implements OnInit {
       const formattedTimeStamp = timeStamp.toLocaleString("en-US", { year: "numeric",month: "2-digit", day: "2-digit",  hour: "2-digit", minute: "2-digit",   second: "2-digit",  hour12: false,});  
       this.order.time_stamp = formattedTimeStamp;
       this.order.current_order = false;
-      this.http.put<Order>(urlUpdate, this.order).subscribe(x => 
-
+      this.http.put<Order>(urlUpdate, this.order).subscribe(x =>         
         this.http.post<Order>(`${FIREBASE_DB_URL}/order/${this.order.order_id}.json`, {} ).subscribe(x=>
-          this.http.put<Order>(`${FIREBASE_DB_URL}/order/${this.order.order_id}.json`, order ).subscribe()
+          this.http.put<Order>(`${FIREBASE_DB_URL}/order/${this.order.order_id}.json`, order ).subscribe(x => this.items = [])
           )
-
         );})
   }  
 }

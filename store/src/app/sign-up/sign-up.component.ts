@@ -22,16 +22,17 @@ export class SignUpComponent {
 
   ngOnInit() {
 
-    this.user.getUsers().subscribe(items => this.biggestID = items[0].user_id)
+    this.user.getUsers().subscribe(items => this.biggestID = items[items.length -1 ].user_id)
   }
 
   onSubmit() {
-    let  order_id  = 2;
-    let user:User = { user_id: this.biggestID,first_name:this.first_name,last_name:this.last, password:this.password };
-     this.http.post<User>(`${FIREBASE_DB_URL}/user/${order_id}.json`, {} ).subscribe(item =>
-      
-      this.http.put<Order>(`${FIREBASE_DB_URL}/user/${order_id}.json`, user ).subscribe()
-      
-      );
+    this.http.get<Order>(`${FIREBASE_DB_URL}/order.json?orderBy="$key"&limitToLast=1`)
+  .subscribe((response) => {
+          let user:User = { user_id: this.biggestID + 1 ,first_name:this.first_name,last_name:this.last, password:this.password };
+          const data:Order = Object.values(response)[0];
+          let userOrder: Order = {current_order:true,time_stamp:"",order_id: data.order_id+1, user_id:user.user_id, user_items:[]};
+          this.http.put<User>(`${FIREBASE_DB_URL}/user/${this.biggestID }.json`, user ).subscribe();  
+          this.http.put<Order>(`${FIREBASE_DB_URL}/order/${data.order_id }.json`, userOrder ).subscribe();
+  });  
   }
 }
