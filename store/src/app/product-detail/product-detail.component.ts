@@ -9,7 +9,7 @@ import { UserService } from '../user.service';
   templateUrl: './product-detail.component.html',
   styleUrls: ['./product-detail.component.scss']
 })
-export class ProductDetailComponent implements OnInit{
+export class ProductListComponent implements OnInit{
   title = 'store';
   items:Product[] = [];
   constructor(private http:HttpClient ,private user:UserService){}

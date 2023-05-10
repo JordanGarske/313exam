@@ -12,7 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { ProductDetailComponent } from './product-detail/product-detail.component';
+import { ProductListComponent } from './product-detail/product-detail.component';
 import { SearchProductComponent } from './search-product/search-product.component';
 import { MatIconModule } from '@angular/material/icon';
 import { LoginComponent } from './login/login.component';
@@ -27,7 +27,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
   declarations: [
     AppComponent,
     CartComponent,
-    ProductDetailComponent,
+    ProductListComponent,
     SearchProductComponent,
     LoginComponent,
     SignUpComponent,
