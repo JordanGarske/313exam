@@ -1,5 +1,4 @@
 
-<button (click)="onSubmit();"> send</button>
 <form class="form" (ngSubmit)="onSubmit()">
     <mat-form-field class="form-field">
       <input matInput type="text" name="first_name" [(ngModel)]="first_name" placeholder="First Name">
@@ -11,5 +10,6 @@
       <input matInput type="password" name="password" [(ngModel)]="password" placeholder="Password">
     </mat-form-field>
     <button mat-raised-button color="primary" type="submit">Sign Up</button>
+    <button mat-raised-button color="primary" (click)="back()">back</button>
   </form>
-  
+  {{here}}

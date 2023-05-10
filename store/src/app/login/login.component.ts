@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.user.loginUser( this.first_name, this.password).subscribe(users =>{
-      console.log(users);
+      
       if(users.length === 0 ){
           this.here = "noe";
       }

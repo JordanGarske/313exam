@@ -18,6 +18,7 @@ export class UserService {
     return this.items.asObservable();
   }
   setUser(user:User){
+    console.log(user)
     this.currentUser = user; 
   }
   getUser():User{

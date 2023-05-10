@@ -66,18 +66,26 @@ export class CartComponent implements OnInit {
       this.http.put<Order>(urlUpdate, this.order).subscribe(worked =>{this.m()});
     }
   orderItems(): void{
-    const urlUpdate = `${FIREBASE_DB_URL}/order/${this.order.order_id -1 }.json`;
-    this.currentUser.getLargestOrder().subscribe(orderID => {
-      let order:Order =  {current_order:true, order_id: orderID + 1 , time_stamp:"",
-      user_id: this.currentUser.getUser().user_id,user_items: [] };
-      const timeStamp = new Date();
-      const formattedTimeStamp = timeStamp.toLocaleString("en-US", { year: "numeric",month: "2-digit", day: "2-digit",  hour: "2-digit", minute: "2-digit",   second: "2-digit",  hour12: false,});  
-      this.order.time_stamp = formattedTimeStamp;
-      this.order.current_order = false;
-      this.http.put<Order>(urlUpdate, this.order).subscribe(x =>         
-        this.http.post<Order>(`${FIREBASE_DB_URL}/order/${this.order.order_id}.json`, {} ).subscribe(x=>
-          this.http.put<Order>(`${FIREBASE_DB_URL}/order/${this.order.order_id}.json`, order ).subscribe(x => this.items = [])
-          )
-        );})
+    if(this.order.user_items){
+      const urlUpdate = `${FIREBASE_DB_URL}/order/${this.order.order_id -1 }.json`;
+      this.currentUser.getLargestOrder().subscribe(orderID => {
+        let order:Order =  {current_order:true, order_id: orderID + 1 , time_stamp:"",
+        user_id: this.currentUser.getUser().user_id,user_items: [] };
+        const timeStamp = new Date();
+        const formattedTimeStamp = timeStamp.toLocaleString("en-US", { year: "numeric",month: "2-digit", day: "2-digit",  hour: "2-digit", minute: "2-digit",   second: "2-digit",  hour12: false,});  
+        this.order.time_stamp = formattedTimeStamp;
+        this.order.current_order = false;
+        this.http.put<Order>(urlUpdate, this.order).subscribe(x =>         
+          this.http.post<Order>(`${FIREBASE_DB_URL}/order/${orderID}.json`, {} ).subscribe(x=>
+            this.http.put<Order>(`${FIREBASE_DB_URL}/order/${orderID}.json`, order ).subscribe(x =>{
+
+              this.items = [];
+              this.total = 0
+            } )
+            )
+          );})
+
+    }
+
   }  
 }
