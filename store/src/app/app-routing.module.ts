@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CartComponent } from './cart/cart.component';
-import { ProductDetailComponent } from './product-detail/product-detail.component';
+import { ProductListComponent } from './product-detail/product-detail.component';
 import { LoginComponent } from './login/login.component';
 import { OrderHistoryComponent } from './order-history/order-history.component';
 import { HomeComponent } from './home/home.component';
@@ -21,7 +21,7 @@ const routes: Routes = [
     children: [
       {path: 'order', component:CartComponent},
       {path:"history", component:OrderHistoryComponent},
-      {path:"list", component:ProductDetailComponent},
+      {path:"list", component:ProductListComponent},
       {path:":id", component:DetailOfProductComponent}
 
     ],
